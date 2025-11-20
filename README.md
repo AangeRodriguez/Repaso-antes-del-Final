@@ -47,4 +47,9 @@ print(paste("Se eliminará la provincia:", fila_perdida$Provincia))
 
 Data_Limpia <- na.omit(Data_Limpia)
 ```
+```{r}
 
+export(Data_Limpia, "Data_CEPLAN_Limpia.csv")
+
+str(Data_Limpia)
+```
