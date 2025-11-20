@@ -1,2 +1,50 @@
 # Repaso-antes-del-Final
 Repaso antes del final 
+
+
+```{r}
+library(rio)
+library(dplyr)
+library(psych)
+library(dplyr)
+library(cluster)
+```
+
+```{r}
+Data = import("Planeamiento_estratégico.xlsx")
+```
+
+```{r}
+Data <- Data %>% 
+  filter(Estrato == "Provincia")
+```
+
+```{r}
+cols_a_convertir <- c("Bajo_Peso", "Desnutricion", "Anemia", "IVIA", "IDE", "IDH", "Devengado_Act", "Devengado_Inv")
+```
+
+
+```{r}
+Data_Limpia <- Data %>% 
+  filter(Estrato == "Provincia") %>% 
+  
+  select(
+    Ubigeo,
+    Provincia = contains("Región"), # Aquí se crea la columna 'Provincia'
+    Bajo_Peso = contains("bajo peso al nacer"),
+    Desnutricion = starts_with("Desnutrición"),
+    Anemia = starts_with("Anemia"),
+    IVIA = contains("Inseguridad Alimentaria"),
+    IDE = contains("Densidad del Estado"),
+    IDH = matches("^IDH"), 
+    Devengado_Act = contains("Actividad"),
+    Devengado_Inv = contains("Inversión")
+  ) %>%
+  mutate(across(all_of(cols_a_convertir), ~suppressWarnings(as.numeric(.))))
+
+fila_perdida <- Data_Limpia %>% filter(!complete.cases(.))
+print(paste("Se eliminará la provincia:", fila_perdida$Provincia))
+
+Data_Limpia <- na.omit(Data_Limpia)
+```
+
