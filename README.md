@@ -39,13 +39,7 @@ Data_Limpia <- Data %>%
     IDH = matches("^IDH"), 
     Devengado_Act = contains("Actividad"),
     Devengado_Inv = contains("Inversión")
-  ) %>%
-  mutate(across(all_of(cols_a_convertir), ~suppressWarnings(as.numeric(.))))
-
-fila_perdida <- Data_Limpia %>% filter(!complete.cases(.))
-print(paste("Se eliminará la provincia:", fila_perdida$Provincia))
-
-Data_Limpia <- na.omit(Data_Limpia)
+  ) 
 ```
 ```{r}
 
